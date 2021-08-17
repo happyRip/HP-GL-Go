@@ -2,7 +2,9 @@ package plotter
 
 import (
 	"bufio"
+	"encoding/json"
 	"errors"
+	"fmt"
 	"math"
 	"os"
 	"path/filepath"
@@ -16,17 +18,32 @@ func floatToUnit(f float64) int {
 	return int(math.Round(f * UNIT))
 }
 
-func unitToFloat(i int) float64 {
-	return float64(i / UNIT)
+func floatToUnitString(f float64) string {
+	return fmt.Sprint(floatToUnit(f))
 }
 
 func floatToIntTimesTen(f float64) int {
 	return int(math.Round(f * 10))
 }
 
-func toStringSingleDecimal(f float64) string {
-	reduced := math.Round(f*10) / 10
-	return strconv.FormatFloat(reduced, 'f', -1, 64)
+func floatToString(f float64) string {
+	return strconv.FormatFloat(f, 'f', -1, 64)
+}
+
+func floatToSlice(f ...float64) []float64 {
+	return f
+}
+
+func floatToUnitSlice(f ...float64) []int {
+	var output []int
+	for _, v := range f {
+		output = append(output, floatToUnit(v))
+	}
+	return output
+}
+
+func unitToFloat(i int) float64 {
+	return float64(i / UNIT)
 }
 
 func intSingleDecimalToFloat(i int) float64 {
@@ -73,9 +90,9 @@ func GetDimensionsFromFile(source string) (floatPair, error) {
 
 				switch i % 2 {
 				case 0:
-					x.getExtremes(v)
+					x.setExtremes(v)
 				case 1:
-					y.getExtremes(v)
+					y.setExtremes(v)
 				}
 
 			}
@@ -102,7 +119,7 @@ func (e *extremes) init() {
 	e.min, e.max = math.MaxInt64, math.MinInt64
 }
 
-func (e *extremes) getExtremes(i int) {
+func (e *extremes) setExtremes(i int) {
 	e.setMin(i)
 	e.setMax(i)
 }
@@ -121,4 +138,9 @@ func (e *extremes) setMax(i int) {
 
 type floatPair struct {
 	x, y float64
+}
+
+func PrettyPrint(i interface{}) string {
+	s, _ := json.MarshalIndent(i, "", "\t")
+	return string(s)
 }
