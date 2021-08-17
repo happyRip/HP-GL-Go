@@ -21,6 +21,8 @@ const (
 	Relative
 )
 
+//go:generate stringer -type=Mode
+
 type Pen struct {
 	x, y int
 }
