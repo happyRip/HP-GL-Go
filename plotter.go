@@ -16,12 +16,12 @@ func CommandSeparator() string {
 
 type Mode int
 
+//go:generate stringer -type=Mode
+
 const (
-	Absolute Mode = iota // Absolute is a default value here
+	Absolute Mode = iota // Absolute used as a default value here
 	Relative
 )
-
-//go:generate stringer -type=Mode
 
 type Pen struct {
 	x, y int
@@ -29,6 +29,7 @@ type Pen struct {
 
 func NewPen(x, y float64) Pen {
 	p := Pen{}
+	p.SetPosition(x, y)
 	return p
 }
 
@@ -129,6 +130,10 @@ func (p Pen) Y() float64 {
 
 func (p Pen) Position() (float64, float64) {
 	return p.X(), p.Y()
+}
+
+func SelectPen(i int) string {
+	return ConstructCommand("SP", i)
 }
 
 func ConstructCommand(command string, args ...int) string {

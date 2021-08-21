@@ -2,7 +2,6 @@ package plotter
 
 import (
 	"bufio"
-	"encoding/json"
 	"errors"
 	"fmt"
 	"math"
@@ -138,9 +137,4 @@ func (e *extremes) setMax(i int) {
 
 type floatPair struct {
 	x, y float64
-}
-
-func PrettyPrint(i interface{}) string {
-	s, _ := json.MarshalIndent(i, "", "\t")
-	return string(s)
 }
