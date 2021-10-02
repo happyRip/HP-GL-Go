@@ -85,7 +85,7 @@ func (p *Pen) Relative(coordinates ...float64) string {
 	return moveCommand("PR", coordinates...)
 }
 
-func (p *Pen) Move(mode Mode, coordinates ...float64) string {
+func (p *Pen) Move(mode Mode, coordinates ...[2]float64) string {
 	output := "PU;" + CommandSeparator()
 	switch mode {
 	case Absolute:
@@ -96,7 +96,7 @@ func (p *Pen) Move(mode Mode, coordinates ...float64) string {
 	return output
 }
 
-func (p *Pen) Line(mode Mode, coordinates ...float64) string {
+func (p *Pen) Line(mode Mode, coordinates ...[2]float64) string {
 	output := "PD;" + CommandSeparator()
 	switch mode {
 	case Absolute:
